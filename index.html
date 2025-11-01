@@ -272,25 +272,23 @@
             const addSimpleItemBtn = document.getElementById('add-simple-item-btn');
             const addDetailedItemBtn = document.getElementById('add-detailed-item-btn');
             let scheduleData = [
-                { title: 'Video regressivo', responsible: '', durationMinutes: 5 },
-                { title: 'Vídeo introdutório', responsible: '', durationMinutes: 1 },
-                { title: 'Introdução', responsible: 'Pr. Stefano', durationMinutes: 4 },
-                { title: 'Louvor', responsible: '', durationMinutes: 25 },
-                { title: 'Oferta', responsible: 'Pr. Stefano', durationMinutes: 10 },
-                { title: 'Visitantes', responsible: 'Pr. Stefano', durationMinutes: 0 },
+                { title: 'Video regressivo', responsible: 'Mídia', durationMinutes: 5 },
+                { title: 'Vídeo introdutório', responsible: 'Mídia', durationMinutes: 1 },
+                { title: 'Introdução', responsible: 'Introdutor', durationMinutes: 4 },
+                { title: 'Louvor', responsible: 'Líder de Louvor', durationMinutes: 25 },
+                { title: 'Oferta', responsible: 'Introdutor', durationMinutes: 10 },
+                { title: 'Visitantes', responsible: 'Introdutor', durationMinutes: 0 },
                 { 
                     title: 'Programação da Casa', 
-                    responsible: '', 
+                    responsible: 'Introdutor e Mídia', 
                     durationMinutes: 10, 
                     description: `Programação da Casa (vídeo)
-Filhas de Eva (vídeo + Qr Code)
 Sobrevivente (imagem)
 Conferência Global (imagem)
-Dia das crianças - Pr. Pedro
 Liberar crianças`
                 },
-                { title: 'Último louvor', responsible: '', durationMinutes: 5 },
-                { title: 'Palavra', responsible: 'Pr. Jacauna', durationMinutes: 40 }
+                { title: 'Último louvor', responsible: 'Líder de Louvor', durationMinutes: 5 },
+                { title: 'Palavra', responsible: 'Pregador', durationMinutes: 40 }
             ];
             // --- FUNÇÕES ---
             function formatTime(date) {
@@ -502,3 +500,4 @@ Liberar crianças`
     </script>
 </body>
 </html>
+
