@@ -4,22 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cronograma de Culto</title>
-    <script>
-        // Adiciona timestamp a todos os recursos
-        document.addEventListener('DOMContentLoaded', function() {
-            const links = document.querySelectorAll('link[rel="stylesheet"]');
-            const scripts = document.querySelectorAll('script[src]');
-            const version = new Date().getTime();
-            
-            links.forEach(link => {
-                link.href = link.href + '?v=' + version;
-            });
-            
-            scripts.forEach(script => {
-                script.src = script.src + '?v=' + version;
-            });
-        });
-    </script>
     <style>
         /* --- GERAIS --- */
         :root {
@@ -47,7 +31,7 @@
             width: 100%;
             max-width: 900px;
             background-color: var(--card-background-color);
-            padding: 5px;
+            padding: 20px;
             border-radius: 8px;
             box-shadow: var(--shadow);
         }
@@ -98,7 +82,7 @@
             padding: 5px;
             border-radius: 4px;
             transition: border-color 0.2s, box-shadow 0.2s;
-            font-size: 0.5em;
+            font-size: 0.6em;
             width: 20%;
         }
         /* --- LISTA DE ITENS --- */
@@ -135,8 +119,8 @@
             color: var(--secondary-color);
             cursor: pointer;
             padding: 0;
-            font-size: 0.4em;
-            line-height: 0.7;
+            font-size: 0.2em;
+            line-height: 0.9;
             transition: color 0.2s, transform 0.1s;
         }
         .reorder-btn:hover:not(:disabled) {
@@ -151,11 +135,12 @@
 
         .time-display {
             font-weight: bold;
-            font-size: 0.5em;
+            font-size: 0.6em;
             color: var(--time);
             min-width: 5px;
             text-align: right;
             flex-shrink: 0;
+            padding-top: 2px;
         }
         .item-details {
             flex-grow: 1;
@@ -174,7 +159,7 @@
             padding: 5px;
             border-radius: 4px;
             transition: border-color 0.2s, box-shadow 0.2s;
-            font-size: 0.48em;
+            font-size: 0.6em;
         }
         .item-details input:focus, .item-details textarea:focus {
             outline: none;
@@ -211,7 +196,7 @@
             min-height: 100px;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
             font-weight: bold;
-            font-size: 0.5em;
+            font-size: 0.58em;
             resize: vertical;
             background-color: #f8f9fa;
             box-sizing: border-box;
@@ -245,7 +230,7 @@
             padding: 10px 10px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 0.5em;
+            font-size: 0.7em;
             transition: background-color 0.2s;
             flex-shrink: 0;
         }
@@ -267,7 +252,7 @@
         </header>
         <section class="global-controls">
             <h6 for="culto-title">Culto:</h6>
-            <input type="text" id="culto-title" value="Manhã">
+            <input type="text" id="culto-title" value="Sessão">
             <h6 for="start-time">Horário de Início:</h6>
             <input type="time" id="start-time" value="09:55">
         </section>
@@ -298,9 +283,9 @@
                     title: 'Programação da Casa', 
                     responsible: 'Introdutor e Mídia', 
                     durationMinutes: 10, 
-                    description: `Programação da Casa (vídeo)
-Sobrevivente (imagem)
-Conferência Global (imagem)`
+                    description: `Aviso 1
+Aviso 2
+Aviso 3`
                 },
                 { title: 'Liberar as crianças', responsible: 'Introdutor', durationMinutes: 0 }, 
                 { title: 'Último louvor', responsible: 'Líder de Louvor', durationMinutes: 5 },
@@ -429,21 +414,71 @@ Conferência Global (imagem)`
                 scheduleData = newData;
             }
             function saveToLocalStorage() {
+                // Cria uma assinatura (hash) dos dados padrão ATUAIS no código.
+                const defaultDataHash = JSON.stringify([
+                { title: 'Video regressivo', responsible: 'Mídia', durationMinutes: 5 },
+                { title: 'Vídeo introdutório', responsible: 'Mídia', durationMinutes: 1 },
+                { title: 'Introdução', responsible: 'Introdutor', durationMinutes: 4 },
+                { title: 'Louvor', responsible: 'Líder de Louvor', durationMinutes: 25 },
+                { title: 'Oferta', responsible: 'Introdutor', durationMinutes: 10 },
+                { title: 'Visitantes', responsible: 'Introdutor', durationMinutes: 0 },
+                { 
+                    title: 'Programação da Casa', 
+                    responsible: 'Introdutor e Mídia', 
+                    durationMinutes: 10, 
+                    description: `Aviso 1
+Aviso 2
+Aviso 3`
+                },
+                { title: 'Liberar as crianças', responsible: 'Introdutor', durationMinutes: 0 }, 
+                { title: 'Último louvor', responsible: 'Líder de Louvor', durationMinutes: 5 },
+                { title: 'Palavra', responsible: 'Pregador', durationMinutes: 40 }
+            ]);
+            
                 const dataToSave = {
+                    // Salva a assinatura junto com os dados do usuário
+                    defaultHash: defaultDataHash,
                     title: cultoTitleInput.value,
                     startTime: startTimeInput.value,
                     items: scheduleData
                 };
                 localStorage.setItem('cultoSchedule', JSON.stringify(dataToSave));
-            }
+            }            
             function loadFromLocalStorage() {
                 const savedData = localStorage.getItem('cultoSchedule');
                 if (savedData) {
                     const data = JSON.parse(savedData);
-                    cultoTitleInput.value = data.title || 'Culto - Manhã';
-                    startTimeInput.value = data.startTime || '09:55';
-                    if (data.items && Array.isArray(data.items)) {
-                        scheduleData = data.items;
+            
+                    // Cria uma assinatura (hash) dos dados padrão ATUAIS no código.
+                    const currentDefaultHash = JSON.stringify([
+                        { title: 'Video regressivo', responsible: 'Mídia', durationMinutes: 5 },
+                        { title: 'Vídeo introdutório', responsible: 'Mídia', durationMinutes: 1 },
+                        { title: 'Introdução', responsible: 'Introdutor', durationMinutes: 4 },
+                        { title: 'Louvor', responsible: 'Líder de Louvor', durationMinutes: 25 },
+                        { title: 'Oferta', responsible: 'Introdutor', durationMinutes: 10 },
+                        { title: 'Visitantes', responsible: 'Introdutor', durationMinutes: 0 },
+                        { 
+                            title: 'Programação da Casa', 
+                            responsible: 'Introdutor e Mídia', 
+                            durationMinutes: 10, 
+                            description: `Aviso 1
+        Aviso 2
+        Aviso 3`
+                        },
+                        { title: 'Liberar as crianças', responsible: 'Introdutor', durationMinutes: 0 }, 
+                        { title: 'Último louvor', responsible: 'Líder de Louvor', durationMinutes: 5 },
+                        { title: 'Palavra', responsible: 'Pregador', durationMinutes: 40 }
+                    ]);
+            
+                    // Compara a assinatura salva com a assinatura atual.
+                    // Se forem IGUAIS, os dados padrão não mudaram. É seguro carregar os dados do usuário.
+                    // Se forem DIFERENTES, o programador atualizou o código. Ignore o cache antigo.
+                    if (data.defaultHash === currentDefaultHash) {
+                        cultoTitleInput.value = data.title || 'Sessão';
+                        startTimeInput.value = data.startTime || '09:55';
+                        if (data.items && Array.isArray(data.items)) {
+                            scheduleData = data.items;
+                        }
                     }
                 }
             }
@@ -516,7 +551,3 @@ Conferência Global (imagem)`
     </script>
 </body>
 </html>
-
-
-
-
