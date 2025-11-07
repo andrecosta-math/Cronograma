@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cronograma de Culto</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         /* --- GERAIS --- */
         :root {
@@ -243,6 +244,12 @@
         .btn-secondary:hover {
             background-color: #5a6268;
         }
+        .btn-export {
+            background-color: #28a745;
+        }
+        .btn-export:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
@@ -260,10 +267,12 @@
             <!-- Os itens do cronograma serão inseridos aqui pelo JavaScript -->
         </ul>
         <div class="action-buttons">
-            <button class="btn" id="add-simple-item-btn">Adicionar Item Simples</button>
-            <button class="btn btn-secondary" id="add-detailed-item-btn">Adicionar Item Detalhado</button>
+            <button class="btn" id="add-simple-item-btn">+ Item Simples</button>
+            <button class="btn btn-secondary" id="add-detailed-item-btn">+ Item Detalhado</button>
+            <button class="btn btn-export" id="export-btn">Exportar Imagem</button>
         </div>
     </main>
+    <div id="export-container" style="position: absolute; left: -9999px; top: 0; background: white; padding: 20px; font-family: sans-serif;"></div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // --- ELEMENTOS DO DOM ---
@@ -272,6 +281,8 @@
             const startTimeInput = document.getElementById('start-time');
             const addSimpleItemBtn = document.getElementById('add-simple-item-btn');
             const addDetailedItemBtn = document.getElementById('add-detailed-item-btn');
+            const exportBtn = document.getElementById('export-btn');
+            const exportContainer = document.getElementById('export-container'); 
             let scheduleData = [
                 { title: 'Video regressivo', responsible: 'Mídia', durationMinutes: 5 },
                 { title: 'Vídeo introdutório', responsible: 'Mídia', durationMinutes: 1 },
