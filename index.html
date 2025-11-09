@@ -559,7 +559,7 @@ async function exportAsImage() {
         durationSpan.style.fontStyle = 'normal';
         durationSpan.style.fontWeight = 'bold';
         // Exibe '0min' caso não haja duração numericamente; ajuste conforme desejar
-        durationSpan.textContent = `${item.durationMinutes}min`;
+        durationSpan.textContent = `${item.durationMinutes} min`;
 
         // Posicionamento absoluto: duration mais à direita, responsible à esquerda dele
         durationSpan.style.position = 'absolute';
@@ -613,7 +613,7 @@ async function exportAsImage() {
             descP.style.paddingLeft = '65px';
             descP.style.paddingRight = '40px'; // valor inicial; será ajustado dinamicamente acima
             descP.style.color = '#6c757d';
-            descP.style.fontSize = '13px';
+            descP.style.fontSize = '15px';
             descP.style.whiteSpace = 'pre-line';
             descP.textContent = item.description;
             itemDiv.appendChild(descP);
