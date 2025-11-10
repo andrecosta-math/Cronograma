@@ -514,7 +514,6 @@ Aviso 3`
                 exportHeader.style.color = '#333';
 
                 const exportInfo = document.createElement('p');
-                exportInfo.textContent = `Início: ${startTimeInput.value}`;
                 exportInfo.style.marginBottom = '20px';
                 exportInfo.style.fontSize = '14px';
                 exportInfo.style.color = '#555';
@@ -542,6 +541,14 @@ Aviso 3`
                     timeSpan.style.minWidth = '50px';
                     timeSpan.textContent = `${formatTime(currentTime)}h`;
 
+                    // ➕ NOVO SPAN: duração logo após o título
+                    const durationSpan = document.createElement('span');
+                    durationSpan.style.color = '#6c757d';
+                    durationSpan.style.fontStyle = 'italic';
+                    durationSpan.style.fontSize = '14px';
+                    durationSpan.textContent = `${item.durationMinutes} min`;
+                    durationSpan.style.marginRight = '15px';
+
                     const titleSpan = document.createElement('span');
                     titleSpan.style.fontWeight = 'bold';
                     titleSpan.style.color = '#212529';
@@ -557,13 +564,12 @@ Aviso 3`
                     // posiciona o responsável à direita e centraliza verticalmente
                     responsibleSpan.style.position = 'absolute';
                     responsibleSpan.style.right = '12px';
-                    responsibleSpan.style.top = '50%';
-                    responsibleSpan.style.transform = 'translateY(-50%)';
                     responsibleSpan.style.whiteSpace = 'nowrap';
 
                     // Adiciona os elementos ao item (necessário para medir responsibleSpan)
                     itemDiv.appendChild(timeSpan);
                     itemDiv.appendChild(titleSpan);
+                    itemDiv.appendChild(durationSpan);
                     itemDiv.appendChild(responsibleSpan);
 
                     // ---------- AJUSTE DINÂMICO: reserva espaço à direita para evitar sobreposição ----------
