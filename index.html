@@ -505,7 +505,16 @@ Aviso 3`
 
                 // 1. Limpa o contêiner de exportação
                 exportContainer.innerHTML = '';
-
+                // força escala 1:1 e desativa ajuste automático de tamanho de texto (essencial em celulares)
+                exportContainer.style.webkitTextSizeAdjust = 'none';  // iOS Safari
+                exportContainer.style.MozTextSizeAdjust = 'none';     // Firefox Android
+                exportContainer.style.msTextSizeAdjust = 'none';      // Edge antigo
+                exportContainer.style.textSizeAdjust = 'none';        // padrão moderno
+                exportContainer.style.fontSize = '15px';              // tamanho fixo explícito
+                exportContainer.style.lineHeight = '1.2';
+                exportContainer.style.wordBreak = 'break-word';       // evita compressão forçada
+                exportContainer.style.overflowWrap = 'break-word';
+                
                 // 2. Cria a estrutura HTML para exportação
                 const exportHeader = document.createElement('h3');
                 exportHeader.textContent = `Cronograma: ${cultoTitleInput.value}`;
